@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import styles from "../styles/Home.module.css";
 
-// Check out README to learn how to enable code completion for GraphQL queries
+// Default GraphQL query shown in the GraphiQL editor
 const defaultQuery = /* GraphQL */ `
   {
     gitHubStatus {
@@ -20,11 +20,11 @@ const defaultQuery = /* GraphQL */ `
 
 export default function Home() {
   const [fetcher, setFetcher] = useState();
+
   useEffect(() => {
-    // Initialise the GraphiQL fetcher inside a "run after the first render"
-    // effect to make sure the first-render DOM on the client-side matches
-    // the server-side rendered DOM. This helps to avoid hydration issues.
-    setFetcher(() => createGraphiQLFetcher({ url: "/api/graphql" }));
+    // Use the GraphQL endpoint from environment variable or fallback to local path
+    const graphqlUrl = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "/api/graphql";
+    setFetcher(() => createGraphiQLFetcher({ url: graphqlUrl }));
   }, []);
 
   return (
